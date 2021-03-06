@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CreatePlanet from './CreatePlanet';
+import CreateEditPlanet from './CreateEditPlanet';
 import '../assets/styles/components/Header.scss'
 
 import logo from '../assets/static/logo-planets-api.png';
@@ -14,11 +14,15 @@ const Header = (props) => {
             <header className="header">
                 <img className="header__img" src={logo} alt="Planets API" />
                 <button className="add-planet" onClick={() => setShowModalCreate(true)}>
-                    <img src={addIcon} /> Add Planet
+                    <img src={addIcon} /> <strong> Add Planet </strong>
                 </button>
             </header>
 
-            <CreatePlanet onClose={() => setShowModalCreate(false)} show={showModalCreate} />
+            <CreateEditPlanet 
+                title="Register a new planet"
+                onClose={() => setShowModalCreate(false)}
+                onAddNewData={(data) => props.onAddNewData(data)}
+                show={showModalCreate} />
 
         </div>
         

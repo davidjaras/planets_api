@@ -5,7 +5,6 @@ import '../assets/styles/App.scss'
 
 // Components
 import Header from '../components/Header';
-import CreatePlanet from '../components/CreatePlanet';
 import Planets from '../components/Planets';
 import Carousel from '../components/Carousel';
 import CarouselPlanetItem from '../components/CarouselPlanetItem';
@@ -23,22 +22,23 @@ const App = () => {
   }, []);
 
   //console.log(planets)
+  const addNewData = (data) => {
+    setPlanets([data, ...planets].sort(function (a, b) {
+      var planetA = a.name;
+      var planetB = b.name;
+      return (planetA < planetB) ? -1 : (planetA > planetB) ? 1 : 0;
+    }));
+  }
+  
 
   return (
     <div className="App">
-      <Header/>
-      <CreatePlanet />
+      <Header onAddNewData={(data) => addNewData(data)}/>
 
       {
         planets.length > 0 &&
         <Planets title='Planets list'>
           <Carousel>
-            {planets.map(item =>
-              <CarouselPlanetItem key={item.id} {...item} />
-            )}
-            {planets.map(item =>
-              <CarouselPlanetItem key={item.id} {...item} />
-            )}
             {planets.map(item =>
               <CarouselPlanetItem key={item.id} {...item} />
             )}

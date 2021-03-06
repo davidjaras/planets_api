@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import '../assets/styles/components/CreatePlanet.scss'
+import '../assets/styles/components/CreateEditPlanet.scss'
 
-const CreatePlanet = (props) => {
+const CreateEditPlanet = (props) => {
 
   if (!props.show) {
     return null
@@ -31,7 +31,12 @@ const CreatePlanet = (props) => {
       },
       body: JSON.stringify(newPlanet)
     })
-    .then(() => alert('Insert successful')) // How to update states
+    .then((response) => response.json())
+      .then((data) => {
+        props.onAddNewData(data)
+        alert('New planet: '+data.name+' created')
+        props.onClose()
+      }) // How to update states
   }
 
   return(
@@ -40,7 +45,7 @@ const CreatePlanet = (props) => {
       <div className="modal-content" onClick={e => e.stopPropagation()}>
 
         <div className="modal-header">
-          <h4 className="modal-title">Register a new planet</h4>
+          <h4 className="modal-title">{props.title}</h4>
         </div>
 
         <div className="modal-body container">
@@ -79,4 +84,4 @@ const CreatePlanet = (props) => {
   );
 }
 
-export default CreatePlanet;
+export default CreateEditPlanet;

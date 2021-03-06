@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/styles/components/CreatePlanet.scss'
 
-const CreatePlanet = () => {
+const CreatePlanet = (props) => {
+
+  if (!props.show) {
+    return null
+  }
 
   const [newPlanet, setNewPlanet] = useState({
     name: '',
@@ -31,37 +35,47 @@ const CreatePlanet = () => {
   }
 
   return(
-  
-    <section className="">
-        
-      <form className="create_planet" onSubmit={sendData}>
-        <h2 className="create_planet__title">Register a new planet</h2>
 
-        <input 
-          type="text" 
-          className="input" 
-          placeholder="Name" 
-          onChange={handleInputs} 
-          name="name" required />
+    <div className="modal-form" onClick={props.onClose}>
+      <div className="modal-content" onClick={e => e.stopPropagation()}>
 
-        <input 
-          type="number" 
-          className="input" 
-          placeholder="Number of satellites" 
-          onChange={handleInputs} 
-          name="satellites" required />
+        <div className="modal-header">
+          <h4 className="modal-title">Register a new planet</h4>
+        </div>
 
-        <input 
-          type="number" 
-          className="input" 
-          placeholder="Diameter in Km" 
-          onChange={handleInputs} 
-          name="diameter" required  />
+        <div className="modal-body container">
+          <form className="input-group align-items-center " onSubmit={sendData}>
 
-        <button type="submit" className="button">Register planet</button>
-      </form>
-        
-    </section>
+            <input 
+              type="text" 
+              className="form-control input"
+              placeholder="Name" 
+              onChange={handleInputs} 
+              name="name" required />
+
+            <input 
+              type="number" 
+              className="form-control input"
+              placeholder="Number of satellites" 
+              onChange={handleInputs} 
+              name="satellites" required />
+
+            <input 
+              type="number" 
+              className="form-control input"
+              placeholder="Diameter in Km" 
+              onChange={handleInputs} 
+              name="diameter" required  />
+
+            <button type="submit" className="button btn btn-success">Register planet</button>
+          </form>
+        </div>
+
+        <div className="modal-footer">
+          <button className="btn btn-outline-secondary" onClick={props.onClose} >Close</button>
+        </div>
+      </div>
+    </div>
   );
 }
 

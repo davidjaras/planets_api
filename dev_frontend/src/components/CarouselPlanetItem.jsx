@@ -28,7 +28,7 @@ const editItem = (id, name, satellites, diameter) => {
 
 
 const CarouselPlanetItem = ({ id, name, satellites, diameter }) => (
-    <div className="carousel-item">
+    <div className="carousel-item col-3">
         
         <img className="carousel-item__img" src="https://picsum.photos/1260/750/?image=1032" />
         <div className="carousel-item__description">

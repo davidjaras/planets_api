@@ -26,12 +26,19 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header />
+      <Header/>
       <CreatePlanet />
+
       {
         planets.length > 0 &&
         <Planets title='Planets list'>
           <Carousel>
+            {planets.map(item =>
+              <CarouselPlanetItem key={item.id} {...item} />
+            )}
+            {planets.map(item =>
+              <CarouselPlanetItem key={item.id} {...item} />
+            )}
             {planets.map(item =>
               <CarouselPlanetItem key={item.id} {...item} />
             )}

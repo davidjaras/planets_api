@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Styles
 import '../assets/styles/App.scss'
@@ -11,27 +11,37 @@ import Carousel from '../components/Carousel';
 import CarouselPlanetItem from '../components/CarouselPlanetItem';
 import Footer from '../components/Footer';
 
-class App extends React.Component {
+const App = () => {
 
-  render(){
-    return(
-      <div className="App">
-        <Header />
-        <CreatePlanet />
+  // function or logic inside the component 
+  const [planets, setPlanets] = useState([])
 
-        <Planets>
+  useEffect(() => {
+    fetch('http://localhost:5555/planets/')
+      .then(response => response.json())
+      .then(data => setPlanets(data));
+  }, []);
+
+  //console.log(planets)
+
+  return (
+    <div className="App">
+      <Header />
+      <CreatePlanet />
+      {
+        planets.length > 0 &&
+        <Planets title='Planets list'>
           <Carousel>
-            <CarouselPlanetItem />
-            <CarouselPlanetItem />
-            <CarouselPlanetItem />
-            <CarouselPlanetItem />
+            {planets.map(item =>
+              <CarouselPlanetItem key={item.id} {...item} />
+            )}
           </Carousel>
         </Planets>
+      }
 
-        <Footer />
-      </div>
-    )
-  }
+      <Footer />
+    </div>
+  )
 }
 
 export default App;

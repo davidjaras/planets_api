@@ -5,5 +5,5 @@ from .models import Planet
 
 
 class PlanetViewSet(viewsets.ModelViewSet):
-    queryset = Planet.objects.all().order_by('-id')
+    queryset = Planet.objects.all().order_by('name')
     serializer_class = PlanetSerializer

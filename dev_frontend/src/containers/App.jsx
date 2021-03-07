@@ -29,6 +29,13 @@ const App = () => {
       return (planetA < planetB) ? -1 : (planetA > planetB) ? 1 : 0;
     }));
   }
+
+
+  const onDeletePlanet = (id) => {
+    setPlanets(
+      planets.filter(planet => planet.id !== id)
+    )
+  }
   
 
   return (
@@ -40,7 +47,11 @@ const App = () => {
         <Planets title='Planets list'>
           <Carousel>
             {planets.map(item =>
-              <CarouselPlanetItem key={item.id} {...item} />
+              <CarouselPlanetItem 
+              key={item.id} 
+              item={item}
+              onDeletePlanet={(id) => onDeletePlanet(id)}
+              />
             )}
           </Carousel>
         </Planets>

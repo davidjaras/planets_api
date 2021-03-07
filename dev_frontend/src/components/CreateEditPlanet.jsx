@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/styles/components/CreateEditPlanet.scss'
 
+const { REACT_APP_API_SERVICE } = process.env;
+
 const CreateEditPlanet = (props) => {
 
   // Show Modal
@@ -37,7 +39,7 @@ const CreateEditPlanet = (props) => {
   const sendData = (event) => {
     event.preventDefault()
     console.log('Sending Data... ' + newPlanet.name + ' ' + newPlanet.satellites + ' ' + newPlanet.diameter)
-    fetch('http://localhost:5555/planets/', {
+    fetch(REACT_APP_API_SERVICE, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -56,7 +58,7 @@ const CreateEditPlanet = (props) => {
   // Function to update data - API
   const updateData = (event) => {
     event.preventDefault()
-    fetch('http://localhost:5555/planets/'+newPlanet.id+'/', {
+    fetch(REACT_APP_API_SERVICE + newPlanet.id + '/', {
       method: 'PATCH',
       headers: {
         'Accept': 'application/json',

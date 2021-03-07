@@ -10,14 +10,16 @@ import Carousel from '../components/Carousel';
 import CarouselPlanetItem from '../components/CarouselPlanetItem';
 import Footer from '../components/Footer';
 
-const App = () => {
+const { REACT_APP_API_SERVICE } = process.env;
 
+const App = () => {
+  
   // Array of objects: Planets State
   const [planets, setPlanets] = useState([])
 
   // Get all from API
   useEffect(() => {
-    fetch('http://localhost:5555/planets/')
+    fetch(REACT_APP_API_SERVICE)
       .then(response => response.json())
       .then(data => setPlanets(data));
   }, []);
@@ -46,26 +48,28 @@ const App = () => {
     )
   }
   
-  
+
   return (
     <div className="App">
       <Header onAddNewData={(data) => addNewData(data)}/>
 
+      <Planets title='Planets list'>
       {
-        planets.length > 0 &&
-        <Planets title='Planets list'>
-          <Carousel>
-            {planets.map(item =>
-              <CarouselPlanetItem 
-              key={item.id} 
-              item={item}
-              onDeletePlanet={(id) => onDeletePlanet(id)}
-              onEditPlanet={(item) => onEditPlanet(item)}
-              />
-            )}
-          </Carousel>
-        </Planets>
+        planets.length > 0 ?
+        <Carousel>
+          {planets.map(item =>
+            <CarouselPlanetItem 
+            key={item.id} 
+            item={item}
+            onDeletePlanet={(id) => onDeletePlanet(id)}
+            onEditPlanet={(item) => onEditPlanet(item)}
+            />
+          )}
+        </Carousel> :
+        <h1 className="no-planets">There are no planets</h1>
       }
+      </Planets>
+     
 
       <Footer />
     </div>

@@ -5,6 +5,7 @@ import '../assets/styles/components/CarouselPlanetItem.scss';
 import editIcon from '../assets/static/edit-icon.png';
 import deleteIcon from '../assets/static/delete-icon.png';
 
+const { REACT_APP_API_SERVICE } = process.env;
 
 const CarouselPlanetItem = (props) => {
 
@@ -14,7 +15,7 @@ const CarouselPlanetItem = (props) => {
     const deleteItem = (id, name) => {
         let confirmation = confirm("Are you sure to destroy " + name + " ?")
         if (confirmation) {
-            fetch('http://localhost:5555/planets/' + id, { method: 'DELETE' })
+            fetch(REACT_APP_API_SERVICE + id, { method: 'DELETE' })
                 .then(() => {
                     props.onDeletePlanet(id)
                 });

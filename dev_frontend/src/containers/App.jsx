@@ -12,16 +12,17 @@ import Footer from '../components/Footer';
 
 const App = () => {
 
-  // function or logic inside the component 
+  // Array of objects: Planets State
   const [planets, setPlanets] = useState([])
 
+  // Get all from API
   useEffect(() => {
     fetch('http://localhost:5555/planets/')
       .then(response => response.json())
       .then(data => setPlanets(data));
   }, []);
 
-  //console.log(planets)
+  //Update state with new planet
   const addNewData = (data) => {
     setPlanets([data, ...planets].sort(function (a, b) {
       var planetA = a.name;
@@ -30,14 +31,22 @@ const App = () => {
     }));
   }
 
+  // Find the planet and update
+  const onEditPlanet = (item) => {
+    let objIndex = planets.findIndex((planet => planet.id == item.id))
+    planets[objIndex].name = item.name
+    planets[objIndex].satellites = item.satellites
+    planets[objIndex].diameter = item.diameter
+  }
 
+  // Delete planet selected
   const onDeletePlanet = (id) => {
     setPlanets(
       planets.filter(planet => planet.id !== id)
     )
   }
   
-
+  
   return (
     <div className="App">
       <Header onAddNewData={(data) => addNewData(data)}/>
@@ -51,6 +60,7 @@ const App = () => {
               key={item.id} 
               item={item}
               onDeletePlanet={(id) => onDeletePlanet(id)}
+              onEditPlanet={(item) => onEditPlanet(item)}
               />
             )}
           </Carousel>

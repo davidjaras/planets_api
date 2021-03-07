@@ -6,23 +6,11 @@ import editIcon from '../assets/static/edit-icon.png';
 import deleteIcon from '../assets/static/delete-icon.png';
 
 
-
-
-const editItem = (id, name, satellites, diameter) => {
-    let confirmation = confirm("Are you sure to release the kraken and change " + name + " ?")
-    if (confirmation) {
-        alert("The planet change because a pandemic")
-        // How to update state
-    } else {
-        alert("The planet was forgiven")
-    }
-}
-
-
 const CarouselPlanetItem = (props) => {
 
     const [showModalEdit, setShowModalEdit] = useState(false)
 
+    // Function to handle Delete in API
     const deleteItem = (id, name) => {
         let confirmation = confirm("Are you sure to destroy " + name + " ?")
         if (confirmation) {
@@ -30,7 +18,6 @@ const CarouselPlanetItem = (props) => {
                 .then(() => {
                     props.onDeletePlanet(id)
                 });
-            // How to update state
         } else {
             alert("The planet was forgiven")
         }
@@ -59,6 +46,9 @@ const CarouselPlanetItem = (props) => {
 
             <CreateEditPlanet
                 title="Edit planet"
+                edit={true}
+                item={props.item}
+                onSetData={(data) => props.onEditPlanet(data)}
                 onClose={() => setShowModalEdit(false)}
                 show={showModalEdit} />
             

@@ -16,9 +16,17 @@
 
 .add-planet {
 	margin-right: 90px;
+  padding: 5px 20px;
   background: transparent;
   color: white;
   border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.add-planet:hover {
+	margin-right: 90px;
+  background: rgb(65, 65, 65);
   cursor: pointer;
 }
 

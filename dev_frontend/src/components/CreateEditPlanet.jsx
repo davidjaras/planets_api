@@ -3,16 +3,29 @@ import '../assets/styles/components/CreateEditPlanet.scss'
 
 const CreateEditPlanet = (props) => {
 
+  // Show Modal
   if (!props.show) {
     return null
   }
 
-  const [newPlanet, setNewPlanet] = useState({
-    name: '',
-    satellites: '',
-    diameter: ''
-  })
+  // Set state whether is Add Planet or Edit
+  const [newPlanet, setNewPlanet] = useState((() => {
+    if (props.edit) {
+      return {
+        id: props.item.id,
+        name: props.item.name,
+        satellites: props.item.satellites,
+        diameter: props.item.diameter
+      }
+    }
+    return {
+      name: '',
+      satellites: '',
+      diameter: ''
+    }
+  }))
 
+  // Update state with data in form
   const handleInputs = (event) => {
     setNewPlanet({
       ...newPlanet,
@@ -20,6 +33,7 @@ const CreateEditPlanet = (props) => {
     })
   }
 
+  // Function to send data to API
   const sendData = (event) => {
     event.preventDefault()
     console.log('Sending Data... ' + newPlanet.name + ' ' + newPlanet.satellites + ' ' + newPlanet.diameter)
@@ -33,8 +47,27 @@ const CreateEditPlanet = (props) => {
     })
     .then((response) => response.json())
       .then((data) => {
-        props.onAddNewData(data)
+        props.onSetData(data)
         alert('New planet: '+data.name+' created')
+        props.onClose()
+      }) // How to update states
+  }
+
+  // Function to update data - API
+  const updateData = (event) => {
+    event.preventDefault()
+    fetch('http://localhost:5555/planets/'+newPlanet.id+'/', {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newPlanet)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        props.onSetData(data)
+        alert('Planet: ' + data.name + ' edited')
         props.onClose()
       }) // How to update states
   }
@@ -49,30 +82,33 @@ const CreateEditPlanet = (props) => {
         </div>
 
         <div className="modal-body container">
-          <form className="input-group align-items-center " onSubmit={sendData}>
-
+          <form className="input-group align-items-center " onSubmit={props.edit ? updateData : sendData}>
+            
             <input 
               type="text" 
               className="form-control input"
-              placeholder="Name" 
-              onChange={handleInputs} 
+              placeholder="Name"
+              value={newPlanet.name}
+              onChange={handleInputs}
               name="name" required />
 
             <input 
               type="number" 
               className="form-control input"
-              placeholder="Number of satellites" 
+              placeholder="Number of satellites"
+              value={newPlanet.satellites}
               onChange={handleInputs} 
               name="satellites" required />
 
             <input 
               type="number" 
               className="form-control input"
-              placeholder="Diameter in Km" 
+              placeholder="Diameter in Km"
+              value={newPlanet.diameter}
               onChange={handleInputs} 
               name="diameter" required  />
 
-            <button type="submit" className="button btn btn-success">Register planet</button>
+            <button type="submit" className="button btn btn-success">{props.edit ? 'Edit ' : 'Create '} planet </button>
           </form>
         </div>
 

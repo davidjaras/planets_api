@@ -20,10 +20,10 @@ const Header = (props) => {
 
             <CreateEditPlanet 
                 title="Register a new planet"
+                edit={false}
                 onClose={() => setShowModalCreate(false)}
-                onAddNewData={(data) => props.onAddNewData(data)}
+                onSetData={(data) => props.onAddNewData(data)}
                 show={showModalCreate} />
-
         </div>
         
     );
